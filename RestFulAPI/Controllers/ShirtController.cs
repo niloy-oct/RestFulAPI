@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using RestFulAPI.Filter;
 using RestFulAPI.Models;
 using RestFulAPI.Repositories;
 
@@ -16,20 +17,11 @@ namespace RestFulAPI.Controllers
         }
 
         [HttpGet("{id}")]
+        [ShirtIDValidate]
         public IActionResult GetShirtsById(int id)
         {
-            if (id <= 0)
-            {
-                return BadRequest();
-            }
-
-            var shirt = ShirtRepository.GetShirtById(id);
-
-            if (shirt == null)
-            {
-                return NotFound();
-            }
-            return Ok(shirt);
+           
+            return Ok(ShirtRepository.GetShirtById(id));
         }
 
         [HttpPost]
