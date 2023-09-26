@@ -13,21 +13,32 @@ namespace RestFulAPI.Controllers
         [HttpGet]
         public IActionResult GetShirts()
         {
-            return Ok("all the shirts");
+            return Ok(ShirtRepository.GetShirts());
         }
 
         [HttpGet("{id}")]
         [ShirtIDValidate]
         public IActionResult GetShirtsById(int id)
         {
-           
+
             return Ok(ShirtRepository.GetShirtById(id));
         }
 
         [HttpPost]
-        public IActionResult CreateShirts([FromForm] Shirt shirt)
+        public IActionResult CreateShirts([FromBody] Shirt shirt)
         {
-            return Ok ("create shirt");
+            if (shirt == null)
+            {
+                return BadRequest();
+            }
+            var existingShirt = ShirtRepository.GetShirtByProperties(shirt.Name, shirt.Color, shirt.Gender, shirt.Size);
+            if (existingShirt != null)
+            {
+                return Ok("create shirt");
+            }
+            ShirtRepository.AddShirt(shirt);
+            return CreatedAtAction(nameof(GetShirtsById), new { id = shirt.ShirtId }, shirt);
+
         }
 
         [HttpPut("{id}")]

@@ -36,6 +36,11 @@ namespace RestFulAPI.Repositories
             }
         };
 
+        public static List<Shirt> GetShirts()
+        {
+            return defaultShirts;
+        }
+
         public static bool IsShirtExist(int id)
         {
             return defaultShirts.Any(i => i.ShirtId == id);
@@ -45,6 +50,22 @@ namespace RestFulAPI.Repositories
         public static Shirt? GetShirtById(int shirtId)
         {
             return defaultShirts.FirstOrDefault(i => i.ShirtId == shirtId);
+        }
+
+
+        public static Shirt? GetShirtByProperties(string? name, string? color, string? gender, int? size)
+        {
+            return defaultShirts.FirstOrDefault(x => !string.IsNullOrWhiteSpace(name) && !string.IsNullOrWhiteSpace(x.Name) && x.Name.Equals(name, StringComparison.OrdinalIgnoreCase) &&
+            !string.IsNullOrWhiteSpace(color) && !string.IsNullOrWhiteSpace(x.Color) && x.Name.Equals(color, StringComparison.OrdinalIgnoreCase) &&
+            !string.IsNullOrWhiteSpace(gender) && !string.IsNullOrWhiteSpace(x.Gender) && x.Name.Equals(gender, StringComparison.OrdinalIgnoreCase) &&
+           size.HasValue && x.Size.HasValue && size.Value == x.Size.Value);
+        }
+
+        public static void AddShirt(Shirt shirt)
+        {
+            int maxId = defaultShirts.Max(x=>x.ShirtId);
+            shirt.ShirtId = maxId + 1;
+            defaultShirts.Add(shirt);
         }
     }
 }

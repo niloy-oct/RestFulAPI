@@ -17,13 +17,24 @@ namespace RestFulAPI.Filter
                 if(shirtId.Value <= 0)
                 {
                     context.ModelState.AddModelError("ShirtId", "Shirt Id is invalid");
-                    context.Result = new BadRequestObjectResult(context.ModelState);
+
+                    var problemDetails = new ValidationProblemDetails(context.ModelState)
+                    {
+                        Status = StatusCodes.Status400BadRequest
+                    };
+
+                    context.Result = new BadRequestObjectResult(problemDetails);
 
                 }
                 else if (!ShirtRepository.IsShirtExist(shirtId.Value))
                 {
                     context.ModelState.AddModelError("ShirtId", "Shirt Id does not exist");
-                    context.Result = new NotFoundObjectResult(context.ModelState);
+                    var problemDetails = new ValidationProblemDetails(context.ModelState)
+                    {
+                        Status = StatusCodes.Status404NotFound
+                    };
+
+                    context.Result = new BadRequestObjectResult(problemDetails);
                 }
             }
         }
