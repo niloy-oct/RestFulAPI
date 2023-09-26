@@ -3,32 +3,35 @@
 namespace RestFulAPI.Controllers
 {
     [ApiController]
+    [Route("api/[controller]")]
     public class ShirtController : ControllerBase
     {
         [HttpGet]
-        [Route("/shirts")]
         public string GetShirts()
         {
             return "all the shirts";
         }
 
-        [HttpGet]
-        [Route("/shirts/{id}")]
+        [HttpGet("{id}")]
         public string GetShirtsById(int id)
         {
             return $"Reading  shirts with ID : {id}";
         }
 
-        [HttpPut]
-        [Route("/shirts/{id}")]
+        [HttpPost]
+        public string CreateShirts()
+        {
+            return "create shirt";
+        }
+
+        [HttpPut("{id}")]       
         public string UpdateShirts(int id)
         {
             return $"Update  shirts with ID : {id}";
         }
 
 
-        [HttpDelete]
-        [Route("/shirts/{id}")]
+        [HttpDelete("{id}")]       
         public string DeleteShirtsById(int id)
         {
             return $"Delete  shirts with ID : {id}";
