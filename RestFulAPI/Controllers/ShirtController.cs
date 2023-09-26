@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using RestFulAPI.Models;
 
 namespace RestFulAPI.Controllers
 {
@@ -19,7 +20,7 @@ namespace RestFulAPI.Controllers
         }
 
         [HttpPost]
-        public string CreateShirts()
+        public string CreateShirts([FromForm] Shirt shirt)
         {
             return "create shirt";
         }
