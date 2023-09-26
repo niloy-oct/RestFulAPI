@@ -4,7 +4,7 @@ namespace RestFulAPI.Models
 {
     public class Shirt
     {
-        public int ShirId { get; set; }
+        public int ShirtId { get; set; }
         public string? Name { get; set; }
         public string? Color { get; set; }
         [ShirtModelValidation]

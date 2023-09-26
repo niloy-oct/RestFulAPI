@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RestFulAPI.Models;
+using RestFulAPI.Repositories;
 
 namespace RestFulAPI.Controllers
 {
@@ -7,35 +8,47 @@ namespace RestFulAPI.Controllers
     [Route("api/[controller]")]
     public class ShirtController : ControllerBase
     {
+
         [HttpGet]
-        public string GetShirts()
+        public IActionResult GetShirts()
         {
-            return "all the shirts";
+            return Ok("all the shirts");
         }
 
         [HttpGet("{id}")]
-        public string GetShirtsById(int id)
+        public IActionResult GetShirtsById(int id)
         {
-            return $"Reading  shirts with ID : {id}";
+            if (id <= 0)
+            {
+                return BadRequest();
+            }
+
+            var shirt = ShirtRepository.GetShirtById(id);
+
+            if (shirt == null)
+            {
+                return NotFound();
+            }
+            return Ok(shirt);
         }
 
         [HttpPost]
-        public string CreateShirts([FromForm] Shirt shirt)
+        public IActionResult CreateShirts([FromForm] Shirt shirt)
         {
-            return "create shirt";
+            return Ok ("create shirt");
         }
 
-        [HttpPut("{id}")]       
-        public string UpdateShirts(int id)
+        [HttpPut("{id}")]
+        public IActionResult UpdateShirts(int id)
         {
-            return $"Update  shirts with ID : {id}";
+            return Ok($"Update  shirts with ID : {id}");
         }
 
 
-        [HttpDelete("{id}")]       
-        public string DeleteShirtsById(int id)
+        [HttpDelete("{id}")]
+        public IActionResult DeleteShirtsById(int id)
         {
-            return $"Delete  shirts with ID : {id}";
+            return Ok($"Delete  shirts with ID : {id}");
         }
     }
 }
