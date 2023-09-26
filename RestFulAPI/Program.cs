@@ -8,27 +8,35 @@ var app = builder.Build();
 
 app.UseHttpsRedirection();
 
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
+//Routing
 
-app.MapGet("/weatherforecast", () =>
+// let say we build a api for an shirt selling website
+
+app.MapGet("/shirts", () =>
 {
-    var forecast = Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
+    return "Reading all the shirts";
+});
+
+app.MapGet("/shirts/{id}", (int id) =>
+{
+    return $"Reading  shirts with ID : {id}";
+});
+
+
+app.MapPost("/shirts", () =>
+{
+    return "Create new shirt";
+});
+
+app.MapPut("/shirts/{id}", (int id) =>
+{
+    return $"Update shirt with ID : {id}";
+});
+
+app.MapDelete("/shirts/{id}", (int id) =>
+{
+    return $"Delete shirt with ID : {id}";
 });
 
 app.Run();
 
-internal record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}
